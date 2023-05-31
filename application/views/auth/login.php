@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="credits">
-                    Made With ❤️ By Admin
+                    Made With ❤️ By Group of 5
                 </div>
 
             </div>

@@ -12,4 +12,11 @@ class ModelTransaksi extends CI_Model
     {
         return $this->db->get_where('transaksi', $where);
     }
+
+    public function updateTransaksi($data = null)
+    {
+        $id_transaksi = $this->input->post('id_transaksi');
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->update('transaksi', $data);
+    }
 }

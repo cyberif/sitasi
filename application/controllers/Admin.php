@@ -17,6 +17,7 @@ class Admin extends CI_Controller
             'title' => "Dashboard",
             'topbar' => $this->ModelUser->cekUser(['nis' => $nis])->row_array(),
             'siswa' => $this->ModelSiswa->getSiswa()->result_array(),
+            'jmlSiswa' => $this->ModelSiswa->getSiswa()->num_rows(),
         ];
         $this->load->view('templates/admin_header', $data);
         $this->load->view('admin/topbar', $data);
@@ -114,30 +115,15 @@ class Admin extends CI_Controller
         $data = [
             'title' => "Data Transaksi",
             'topbar' => $this->ModelUser->cekUser(['nis' => $nis])->row_array(),
-            'ts_proses' => $this->ModelTransaksi->cekTransaksi([
+            'setoran_proses' => $this->ModelTransaksi->cekTransaksi([
                 'jenis_transaksi' => 'Setoran',
                 'status' => 'Diproses'
             ])->result_array(),
-            'ts_tolak' => $this->ModelTransaksi->cekTransaksi([
-                'jenis_transaksi' => 'Setoran',
-                'status' => 'Ditolak'
-            ])->result_array(),
-            'ts_terima' => $this->ModelTransaksi->cekTransaksi([
-                'jenis_transaksi' => 'Setoran',
-                'status' => 'Diterima'
-            ])->result_array(),
-            'tp_proses' => $this->ModelTransaksi->cekTransaksi([
+            'penarikan_proses' => $this->ModelTransaksi->cekTransaksi([
                 'jenis_transaksi' => 'Penarikan',
                 'status' => 'Diproses'
             ])->result_array(),
-            'tp_tolak' => $this->ModelTransaksi->cekTransaksi([
-                'jenis_transaksi' => 'Penarikan',
-                'status' => 'Ditolak'
-            ])->result_array(),
-            'tp_terima' => $this->ModelTransaksi->cekTransaksi([
-                'jenis_transaksi' => 'Penarikan',
-                'status' => 'Diterima'
-            ])->result_array(),
+
         ];
         $this->load->view('templates/admin_header', $data);
         $this->load->view('admin/topbar', $data);
@@ -145,6 +131,113 @@ class Admin extends CI_Controller
         $this->load->view('admin/dataTransaksi', $data);
         $this->load->view('templates/admin_footer', $data);
     }
+
+    function detailSetoran($id_transaksi)
+    {
+        $nis = $this->session->userdata('nis');
+
+        $data = [
+            'title' => "Detail Setoran",
+            'topbar' => $this->ModelUser->cekUser(['nis' => $nis])->row_array(),
+            'transaksi' => $this->ModelTransaksi->cekTransaksi([
+                'id_transaksi' => $id_transaksi
+            ])->row_array(),
+            'tabungan' => $this->db->query(
+                "SELECT tabungan.id_tabungan, tabungan.nis, tabungan.saldo
+                FROM tabungan
+                INNER JOIN transaksi ON tabungan.id_tabungan = transaksi.id_tabungan
+                WHERE transaksi.id_transaksi= " . $id_transaksi
+            )->row_array(),
+            'siswa' => $this->db->query(
+                "SELECT siswa.nis, siswa.no_telepon, user.nama
+                FROM siswa
+                JOIN user ON siswa.nis = user.nis
+                JOIN transaksi ON user.id = transaksi.id_user
+                WHERE transaksi.id_transaksi= " . $id_transaksi
+            )->row_array(),
+
+        ];
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('admin/topbar', $data);
+        $this->load->view('admin/sidebar', $data);
+        $this->load->view('admin/detail_setoran', $data);
+        $this->load->view('templates/admin_footer', $data);
+    }
+
+    function terimaSetoran($id_transaksi)
+    {
+        $id_user = $this->input->post('id_user');
+        $id_tabungan = $this->input->post('id_tabungan');
+        $jenis_transaksi = $this->input->post('jenis_transaksi');
+        $nominal = $this->input->post('nominal', true);
+        $metode_pembayaran = $this->input->post('metode_pembayaran');
+        $status = 'Diterima';
+        $bukti = $this->input->post('bukti');
+        $tanggal = $this->input->post('tanggal');
+        $dataTransaksi = array(
+            'id_user' => $id_user,
+            'jenis_transaksi' => $jenis_transaksi,
+            'nominal' => $nominal,
+            'metode_pembayaran' => $metode_pembayaran,
+            'bukti' => $bukti,
+            'status' => $status,
+            'id_tabungan' => $id_tabungan,
+            'tanggal' => $tanggal
+        );
+        $this->ModelTransaksi->updateTransaksi($dataTransaksi);
+        $nis = $this->input->post('nis');
+        $old_saldo = $this->input->post('saldo');
+        $saldo = $old_saldo + $nominal;
+        $dataTabungan = array(
+            'nis' => $nis,
+            'saldo' => $saldo,
+        );
+        $this->ModelTabungan->updateTabungan($dataTabungan);
+        $this->session->set_flashdata(
+            'pesan',
+            '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-1"></i>
+                    <b>Sukses!</b> Transaksi telah diproses.
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>'
+        );
+        redirect('admin/dataTransaksi');
+    }
+
+    function tolakSetoran($id_transaksi)
+    {
+        $id_user = $this->input->post('id_user');
+        $id_tabungan = $this->input->post('id_tabungan');
+        $jenis_transaksi = $this->input->post('jenis_transaksi');
+        $nominal = $this->input->post('nominal', true);
+        $metode_pembayaran = $this->input->post('metode_pembayaran');
+        $status = 'Ditolak';
+        $bukti = $this->input->post('bukti');
+        $tanggal = $this->input->post('tanggal');
+        $dataTransaksi = array(
+            'id_user' => $id_user,
+            'jenis_transaksi' => $jenis_transaksi,
+            'nominal' => $nominal,
+            'metode_pembayaran' => $metode_pembayaran,
+            'bukti' => $bukti,
+            'status' => $status,
+            'id_tabungan' => $id_tabungan,
+            'tanggal' => $tanggal
+        );
+        $this->ModelTransaksi->updateTransaksi($dataTransaksi);
+
+        $this->session->set_flashdata(
+            'pesan',
+            '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-1"></i>
+                    <b>Sukses!</b> Transaksi telah ditolak.
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>'
+        );
+        redirect('admin/dataTransaksi');
+    }
+
+
 
     public function profile()
     {
@@ -188,5 +281,18 @@ class Admin extends CI_Controller
             );
             redirect('admin/profile');
         }
+    }
+
+    public function cetakTransaksi()
+    {
+        $nis = $this->session->userdata('nis');
+        // $transaksi = $this->ModelTransaksi->cekTransaksi([
+        //     'id_transaksi' => $id,
+        // ]);
+        $data = [
+            'title' => "Cetak Transaksi",
+            // 'transaksi' => $transaksi,
+        ];
+        $this->load->view('admin/cetakTransaksi', $data);
     }
 }

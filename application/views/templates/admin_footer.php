@@ -1,7 +1,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        <span>Made With ❤️ By Group of 4</span>
+        <span>Made With ❤️ By Group of 5</span>
     </div>
     <div class="credits">
         <!-- All the links in the footer should remain intact. -->

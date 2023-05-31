@@ -70,7 +70,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nominal</th>
+                                            <th scope="col">Jenis Transaksi</th>
                                             <th scope="col">Metode Pembayaran</th>
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Detail</th>
@@ -81,7 +81,7 @@
                                         <?php foreach ($transaksi_proses as $t_proses) : ?>
                                             <tr>
                                                 <th scope="row"><?= $i++; ?></a></th>
-                                                <td><?= $t_proses['nominal']; ?></td>
+                                                <td><?= $t_proses['jenis_transaksi']; ?></td>
                                                 <td><?= $t_proses['metode_pembayaran']; ?></td>
                                                 <td><?= date('d/m/Y - G:i', $t_proses['tanggal']); ?></td>
                                                 <td><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">Lihat Detail</a></td>

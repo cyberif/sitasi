@@ -21,7 +21,7 @@
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6><?= "4" ?></h6>
+                                        <h6><?= $jmlSiswa; ?></h6>
                                         <span class="text-primary small pt-1 fw-bold">Results</span>
                                     </div>
                                 </div>

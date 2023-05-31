@@ -97,14 +97,6 @@ class User extends CI_Controller
                     'tanggal' => $tanggal
                 );
                 $this->ModelTransaksi->tambahTransaksi($dataTransaksi);
-                // $nis = $this->session->userdata('nis');
-                // $old_saldo = $this->input->post('saldo');
-                // $saldo = $old_saldo + $nominal;
-                // $dataTabungan = array(
-                //     'nis' => $nis,
-                //     'saldo' => $saldo,
-                // );
-                // $this->ModelTabungan->updateTabungan($dataTabungan);
                 $this->session->set_flashdata(
                     'pesan',
                     '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
@@ -113,15 +105,17 @@ class User extends CI_Controller
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>'
                 );
-                redirect('user/riwayat');
+                redirect('user/riwayat/' . $id);
             }
         }
     }
+
     public function penarikan($id)
     {
         $this->form_validation->set_rules('nominal', 'nominal', 'required', [
             'required' => 'Masukan Nominal.'
         ]);
+
 
         if ($this->form_validation->run() == false) {
             $nis = $this->session->userdata('nis');
@@ -139,6 +133,7 @@ class User extends CI_Controller
             $this->load->view('templates/user_footer');
         } else {
             $id_user = $this->input->post('id_user');
+            $nominal = $this->input->post('nominal', true);
             $id_tabungan = $this->input->post('id_tabungan');
             $jenis_transaksi = 'Penarikan';
             $nominal = $this->input->post('nominal', true);
@@ -155,27 +150,32 @@ class User extends CI_Controller
                 'id_tabungan' => $id_tabungan,
                 'tanggal' => $tanggal
             );
-            $this->ModelTransaksi->tambahTransaksi($dataTransaksi);
-            // $nis = $this->session->userdata('nis');
-            // $old_saldo = $this->input->post('saldo');
-            // $saldo = $old_saldo - $nominal;
-            // $dataTabungan = array(
-            //     'nis' => $nis,
-            //     'saldo' => $saldo,
-            // );
-            // $this->ModelTabungan->updateTabungan($dataTabungan);
-            $this->session->set_flashdata(
-                'pesan',
-                '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-1"></i>
-                    <b>Sukses!</b> Transaksi anda sedang diproses. Harap tunggu.
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>'
-            );
-            redirect('user/riwayat/' . $id);
-        }
-    }
 
+            $saldo = $this->input->post('saldo');
+            if ($nominal > $saldo) {
+                $this->session->set_flashdata(
+                    'pesan',
+                    '<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                            <i class="bi bi-x-circle me-1"></i>
+                            <b>Gagal!</b> Saldo tidak cukup.
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>'
+                );
+                redirect('user/penarikan/' . $id);
+            } else {
+                $this->ModelTransaksi->tambahTransaksi($dataTransaksi);
+                $this->session->set_flashdata(
+                    'pesan',
+                    '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle me-1"></i>
+                            <b>Sukses!</b> Transaksi anda sedang diproses. Harap tunggu.
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>'
+                );
+                redirect('user/riwayat/' . $id);
+            }
+        };
+    }
 
     function riwayat($id)
     {

@@ -42,7 +42,7 @@
                                 </div>
 
                                 <div class="row mt-2">
-                                    <label class="col-sm-4 col-form-label">Bukti</label>
+                                    <label class="col-sm-4 col-form-label">Bukti Transfer</label>
                                     <input class="col" type="file" name="bukti">
                                 </div>
 

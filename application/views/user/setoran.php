@@ -86,7 +86,7 @@
                                     <i class="bx bx-phone"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>08231471709</h6>
+                                    <h6>082314717069</h6>
                                 </div>
                             </div>
                         </div>

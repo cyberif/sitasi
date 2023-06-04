@@ -5,14 +5,14 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="<?= base_url('admin'); ?>">
-                <i class="bi bi-grid"></i>
+                <i class="bi bi-grid fs-3"></i>
                 <span>Dashboard</span>
             </a>
         </li>
         <li class="nav-heading">Data Siswa</li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="<?= base_url('admin/dataSiswa'); ?>">
-                <i class="bi bi-people"></i>
+                <i class="bi bi-people fs-3"></i>
                 <span>Siswa</span>
             </a>
         </li>
@@ -20,7 +20,7 @@
         <li class="nav-heading">Data Transaksi</li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="<?= base_url('admin/dataTransaksi'); ?>">
-                <i class="bi bi-shop"></i>
+                <i class="ri ri-hand-coin-line fs-3"></i>
                 <span>Transaksi</span>
             </a>
         </li>

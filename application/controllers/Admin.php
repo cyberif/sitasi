@@ -18,6 +18,9 @@ class Admin extends CI_Controller
             'topbar' => $this->ModelUser->cekUser(['nis' => $nis])->row_array(),
             'siswa' => $this->ModelSiswa->getSiswa()->result_array(),
             'jmlSiswa' => $this->ModelSiswa->getSiswa()->num_rows(),
+            'jmlProses' => $this->ModelTransaksi->cekTransaksi([
+                'status' => 'Diproses'
+            ])->num_rows(),
         ];
         $this->load->view('templates/admin_header', $data);
         $this->load->view('admin/topbar', $data);
@@ -236,6 +239,130 @@ class Admin extends CI_Controller
         );
         redirect('admin/dataTransaksi');
     }
+    function detailPenarikan($id_transaksi)
+    {
+        $nis = $this->session->userdata('nis');
+
+        $data = [
+            'title' => "Detail Penarikan",
+            'topbar' => $this->ModelUser->cekUser(['nis' => $nis])->row_array(),
+            'transaksi' => $this->ModelTransaksi->cekTransaksi([
+                'id_transaksi' => $id_transaksi
+            ])->row_array(),
+            'tabungan' => $this->db->query(
+                "SELECT tabungan.id_tabungan, tabungan.nis, tabungan.saldo
+                FROM tabungan
+                INNER JOIN transaksi ON tabungan.id_tabungan = transaksi.id_tabungan
+                WHERE transaksi.id_transaksi= " . $id_transaksi
+            )->row_array(),
+            'siswa' => $this->db->query(
+                "SELECT siswa.nis, siswa.no_telepon, user.nama
+                FROM siswa
+                JOIN user ON siswa.nis = user.nis
+                JOIN transaksi ON user.id = transaksi.id_user
+                WHERE transaksi.id_transaksi= " . $id_transaksi
+            )->row_array(),
+
+        ];
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('admin/topbar', $data);
+        $this->load->view('admin/sidebar', $data);
+        $this->load->view('admin/detail_penarikan', $data);
+        $this->load->view('templates/admin_footer', $data);
+    }
+
+    function terimaPenarikan($id_transaksi)
+    {
+        $id_user = $this->input->post('id_user');
+        $id_tabungan = $this->input->post('id_tabungan');
+        $jenis_transaksi = $this->input->post('jenis_transaksi');
+        $nominal = $this->input->post('nominal', true);
+        $metode_pembayaran = $this->input->post('metode_pembayaran');
+        $status = 'Diterima';
+        $bukti = $this->input->post('bukti');
+        $tanggal = $this->input->post('tanggal');
+        $file_name = str_replace('.', '', $id_user . $tanggal);
+        $config['upload_path'] = FCPATH . './uploads/bukti/';
+        $config['file_name'] = $file_name;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['overwrite'] = TRUE;
+        $config['max_size'] = 2048;
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload('bukti')) {
+            $error = $this->upload->display_errors();
+            $this->session->set_flashdata(
+                'pesan',
+                '<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                <i class="bi bi-cross-circle me-1"></i>' . $error
+                    .
+                    '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>'
+            );
+            redirect('admin/detaiPenarikan/' . $id_transaksi);
+        } else {
+            $dataTransaksi = array(
+                'id_user' => $id_user,
+                'jenis_transaksi' => $jenis_transaksi,
+                'nominal' => $nominal,
+                'metode_pembayaran' => $metode_pembayaran,
+                'bukti' => $bukti,
+                'status' => $status,
+                'id_tabungan' => $id_tabungan,
+                'tanggal' => $tanggal
+            );
+            $this->ModelTransaksi->updateTransaksi($dataTransaksi);
+            $nis = $this->input->post('nis');
+            $old_saldo = $this->input->post('saldo');
+            $saldo = $old_saldo - $nominal;
+            $dataTabungan = array(
+                'nis' => $nis,
+                'saldo' => $saldo,
+            );
+            $this->ModelTabungan->updateTabungan($dataTabungan);
+            $this->session->set_flashdata(
+                'pesan',
+                '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <b>Sukses!</b> Transaksi telah diproses.
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>'
+            );
+            redirect('admin/dataTransaksi');
+        }
+    }
+
+    function tolakPenarikan($id_transaksi)
+    {
+        $id_user = $this->input->post('id_user');
+        $id_tabungan = $this->input->post('id_tabungan');
+        $jenis_transaksi = $this->input->post('jenis_transaksi');
+        $nominal = $this->input->post('nominal', true);
+        $metode_pembayaran = $this->input->post('metode_pembayaran');
+        $status = 'Ditolak';
+        $bukti = $this->input->post('bukti');
+        $tanggal = $this->input->post('tanggal');
+        $dataTransaksi = array(
+            'id_user' => $id_user,
+            'jenis_transaksi' => $jenis_transaksi,
+            'nominal' => $nominal,
+            'metode_pembayaran' => $metode_pembayaran,
+            'bukti' => $bukti,
+            'status' => $status,
+            'id_tabungan' => $id_tabungan,
+            'tanggal' => $tanggal
+        );
+        $this->ModelTransaksi->updateTransaksi($dataTransaksi);
+
+        $this->session->set_flashdata(
+            'pesan',
+            '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-1"></i>
+                    <b>Sukses!</b> Transaksi telah ditolak.
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>'
+        );
+        redirect('admin/dataTransaksi');
+    }
 
 
 
@@ -283,16 +410,71 @@ class Admin extends CI_Controller
         }
     }
 
-    public function cetakTransaksi()
+    public function print_data_siswa()
     {
-        $nis = $this->session->userdata('nis');
-        // $transaksi = $this->ModelTransaksi->cekTransaksi([
-        //     'id_transaksi' => $id,
-        // ]);
+        $data = [
+            'title' => "Cetak Data Siswa",
+            'siswa' => $this->ModelSiswa->getSiswa()->result_array(),
+        ];
+        $this->load->view('admin/print_data_siswa', $data);
+    }
+
+    public function pdf_data_siswa()
+    {
+        $this->load->library('Dompdf_gen');
+
+        $data = [
+            'title' => "Cetak Data Siswa",
+            'siswa' => $this->ModelSiswa->getSiswa()->result_array(),
+        ];
+        $this->load->view('admin/pdf_data_siswa', $data);
+
+        $paper = 'A4';
+        $orien = 'landscape';
+        $html = $this->output->get_output();
+
+        $this->dompdf->set_paper($paper, $orien);
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->stream('laporan_data_siswa.pdf');
+    }
+
+    public function print_transaksi($status)
+    {
+        $transaksi = $this->db->query("SELECT * FROM transaksi
+        JOIN user ON user.id = transaksi.id_user
+        JOIN siswa ON user.nis = siswa.nis
+        WHERE transaksi.status = '" . $status .
+            "' ORDER BY transaksi.tanggal ASC")->result_array();
         $data = [
             'title' => "Cetak Transaksi",
-            // 'transaksi' => $transaksi,
+            'transaksi' => $transaksi,
         ];
-        $this->load->view('admin/cetakTransaksi', $data);
+        $this->load->view('admin/print_transaksi', $data);
+    }
+
+    public function pdf_transaksi($status)
+    {
+        $this->load->library('Dompdf_gen');
+
+        $transaksi = $this->db->query("SELECT * FROM transaksi
+        JOIN user ON user.id = transaksi.id_user
+        JOIN siswa ON user.nis = siswa.nis
+        WHERE transaksi.status = '" . $status .
+            "' ORDER BY transaksi.tanggal ASC")->result_array();
+        $data = [
+            'title' => "Cetak Transaksi",
+            'transaksi' => $transaksi,
+        ];
+        $this->load->view('admin/pdf_transaksi', $data);
+
+        $paper = 'A4';
+        $orien = 'landscape';
+        $html = $this->output->get_output();
+
+        $this->dompdf->set_paper($paper, $orien);
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->stream("laporan_transaksi_" . $status . ".pdf");
     }
 }

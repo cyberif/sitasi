@@ -17,6 +17,13 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Siswa</h5>
+                                <div class="row">
+                                    <div class="col d-flex flex-row gap-2 mb-2">
+                                        <a href="<?= base_url('admin/print_data_siswa'); ?>" target="_blank" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
+                                        <a href="<?= base_url('admin/pdf_data_siswa'); ?>" target="_blank" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                    </div>
+
+                                </div>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>

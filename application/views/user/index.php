@@ -28,6 +28,23 @@
                             </div>
                         </div>
                     </div><!-- End Saldo Card -->
+                    <!-- Saldo Card -->
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Transaksi</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bx bxs-hourglass-top"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6><?= $jml_ptransaksi; ?></h6>
+                                        <span class="text-primary small pt-1 fw-bold">Sedang Diproses</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Saldo Card -->
                     <!-- User -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -37,18 +54,23 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Id</th>
+                                            <th scope="col">Jenis Transaksi</th>
+                                            <th scope="col">Metode Pembayaran</th>
                                             <th scope="col">Nominal</th>
-                                            <th scope="col">Bukti</th>
+                                            <th scope="col">Tanggal</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
-                                        <tr>
-                                            <th scope="row"><?= "s" ?></a></th>
-                                            <td><?= "s"; ?></td>
-                                            <td><?= "s"; ?></td>
-                                        </tr>
+                                        <?php foreach ($transaksi as $t) : ?>
+                                            <tr>
+                                                <th scope="row"><?= $i++; ?></a></th>
+                                                <td><?= $t['jenis_transaksi']; ?></td>
+                                                <td><?= $t['metode_pembayaran']; ?></td>
+                                                <td><?= $t['nominal']; ?></td>
+                                                <td><?= date('d/m/Y - G:i', $t['tanggal']); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -117,7 +139,7 @@
                                 <div class="activite-label">langkah 2</div>
                                 <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
                                 <div class="activity-content">
-                                    Mengisi nominal yang akan ditarik <span class="fw-bold text-secondary">ATAU</span> menemui admin langsung.
+                                    Mengisi nominal yang akan ditarik <span class="fw-bold text-secondary">DAN</span> metode pembayarannya.
                                 </div>
                             </div><!-- End langkah2 -->
 
@@ -125,7 +147,7 @@
                                 <div class="activite-label">langkah 3</div>
                                 <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
                                 <div class="activity-content">
-                                    Mengisi form setoran sesuai yang anda lakukan. Kemudian upload bukti transfer.
+                                    Kemudian klik submit. Kemudian menunggu admin mengkonfirmasi.
                                 </div>
                             </div><!-- End langkah2 -->
 
@@ -133,7 +155,14 @@
                                 <div class="activite-label">langkah 4</div>
                                 <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
                                 <div class="activity-content">
-                                    Klik submit. Kemudian menunggu dikonfirmasi oleh admin dan saldo akan bertambah. <a href="<?= base_url('user/riwayat/' . $sidebar['id']); ?>" class="fw-bold text-dark">Klik</a> untuk melihat transaksi anda.
+                                    Admin akan mentransfer ke akun Dana anda <span class="fw-bold text-secondary">ATAU</span> anda bisa menemui admin. Lalu admin akan memberikan bukti transfernya ke anda.
+                                </div>
+                            </div><!-- End langkah2 -->
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">langkah 5</div>
+                                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
+                                <div class="activity-content">
+                                    Kemudian saldo akan berkurang. <a href="<?= base_url('user/riwayat/' . $sidebar['id']); ?>" class="fw-bold text-dark">Klik</a> untuk melihat transaksi anda.
                                 </div>
                             </div><!-- End langkah2 -->
                         </div>

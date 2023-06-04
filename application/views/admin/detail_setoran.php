@@ -1,7 +1,7 @@
 <style>
-    .bukti {
-        width: 120px;
-        height: 190px;
+    img {
+        width: max-content;
+        height: auto;
     }
 </style>
 <main id="main" class="main">
@@ -79,7 +79,9 @@
                             </div>
                             <div class="row mt-2">
                                 <label class="col-sm-4 col-form-label">Bukti Transfer</label>
-                                <img class="bukti" src="<?= base_url('./uploads/bukti/' . $transaksi['bukti']); ?>" alt="<?= $transaksi['bukti']; ?>">
+                                <div class="col-6">
+                                    <img class="bukti" src="<?= base_url('./uploads/bukti/' . $transaksi['bukti']); ?>" alt="<?= $transaksi['bukti']; ?>">
+                                </div>
                             </div>
                             <form method="POST" enctype="multipart/form-data" action="<?= base_url('admin/terimaSetoran/' . $transaksi['id_transaksi']); ?>">
                                 <input type="hidden" name="id_transaksi" value="<?= $transaksi['id_transaksi']; ?>">
@@ -93,7 +95,7 @@
                                 <input type="hidden" name="nis" value="<?= $tabungan['nis']; ?>">
                                 <input type="hidden" name="saldo" value="<?= $tabungan['saldo']; ?>">
                                 <div class="text-center mb-1 mt-3">
-                                    <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Proses</button>
+                                    <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Terima</button>
                                 </div>
                             </form>
                             <form method="POST" enctype="multipart/form-data" action="<?= base_url('admin/tolakSetoran/' . $transaksi['id_transaksi']); ?>">

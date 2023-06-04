@@ -11,16 +11,15 @@
                     <span class="fs-5 text-center fw-normal py-2">SDN 1 Brebes</span>
                 </div><!-- End Logo -->
 
-
                 <div class="card mb-3">
 
                     <div class="card-body">
-                        <?= $this->session->flashdata('pesan'); ?>
 
                         <div class="pt-4 pb-2">
                             <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                             <p class="text-center small">Masukan NIS dan Password Anda Untuk Login</p>
                         </div>
+                        <?= $this->session->flashdata('pesan'); ?>
 
                         <form class="row g-3" action="<?= base_url('auth'); ?>" method="POST">
 

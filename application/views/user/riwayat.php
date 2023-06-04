@@ -8,7 +8,7 @@
     <section class="section dashboard">
         <div class="row">
             <!-- uang masuk Card -->
-            <div class="col-xxl-4 col-md-4">
+            <div class="col-xxl-6 col-md-6">
                 <div class="card info-card revenue-card">
                     <div class="card-body">
                         <h5 class="card-title">Uang Masuk</h5>
@@ -30,7 +30,7 @@
                 </div>
             </div><!-- End uang masuk Card -->
             <!-- uang keluar Card -->
-            <div class="col-xxl-4 col-md-4">
+            <div class="col-xxl-6 col-md-6">
                 <div class="card info-card customers-card">
                     <div class="card-body">
                         <h5 class="card-title">Uang Keluar</h5>
@@ -58,14 +58,20 @@
         <div class="row">
 
             <!-- Left side columns -->
-            <div class="col-lg-11">
+            <div class="col-lg-12">
                 <?= $this->session->flashdata('pesan'); ?>
                 <div class="row">
                     <!-- data Transaksi Diproses -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Diproses</h5>
+                                <h5 class="card-title mb-0">Diproses</h5>
+                                <div class="row">
+                                    <div class="col d-flex flex-row gap-2 mb-2">
+                                        <a href="<?= base_url('user/print_t_diproses/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
+                                        <a href="<?= base_url('user/pdf_t_diproses/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                    </div>
+                                </div>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
@@ -84,7 +90,7 @@
                                                 <td><?= $t_proses['jenis_transaksi']; ?></td>
                                                 <td><?= $t_proses['metode_pembayaran']; ?></td>
                                                 <td><?= date('d/m/Y - G:i', $t_proses['tanggal']); ?></td>
-                                                <td><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">Lihat Detail</a></td>
+                                                <td><a href="<?= base_url('user/detailRiwayat/' . $t_proses['id_transaksi']) ?>" rel="noopener noreferrer">Lihat Detail</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -94,16 +100,22 @@
                     </div><!-- End proses -->
                 </div>
                 <div class="row">
-                    <!-- data Transaksi Diterima -->
+                    <!-- data Transaksi Ditolak -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Diterima</h5>
+                                <div class="row">
+                                    <div class="col d-flex flex-row gap-2 mb-2">
+                                        <a href="<?= base_url('user/print_t_diterima/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
+                                        <a href="<?= base_url('user/pdf_t_diterima/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                    </div>
+                                </div>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nominal</th>
+                                            <th scope="col">Jenis Transaksi</th>
                                             <th scope="col">Metode Pembayaran</th>
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Detail</th>
@@ -114,10 +126,10 @@
                                         <?php foreach ($transaksi_terima as $t_terima) : ?>
                                             <tr>
                                                 <th scope="row"><?= $i++; ?></a></th>
-                                                <td><?= $t_terima['nominal']; ?></td>
+                                                <td><?= $t_terima['jenis_transaksi']; ?></td>
                                                 <td><?= $t_terima['metode_pembayaran']; ?></td>
                                                 <td><?= date('d/m/Y - G:i', $t_terima['tanggal']); ?></td>
-                                                <td><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">Lihat Detail</a></td>
+                                                <td><a href="<?= base_url('user/detailRiwayat/' . $t_terima['id_transaksi']) ?>" rel="noopener noreferrer">Lihat Detail</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -127,16 +139,22 @@
                     </div><!-- End diterima -->
                 </div>
                 <div class="row">
-                    <!-- data Transaksi Diterima -->
+                    <!-- data Transaksi Ditolak -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Ditolak</h5>
+                                <div class="row">
+                                    <div class="col d-flex flex-row gap-2 mb-2">
+                                        <a href="<?= base_url('user/print_t_ditolak/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
+                                        <a href="<?= base_url('user/pdf_t_ditolak/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                    </div>
+                                </div>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nominal</th>
+                                            <th scope="col">Jenis Transaksi</th>
                                             <th scope="col">Metode Pembayaran</th>
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Detail</th>
@@ -147,10 +165,10 @@
                                         <?php foreach ($transaksi_tolak as $t_tolak) : ?>
                                             <tr>
                                                 <th scope="row"><?= $i++; ?></a></th>
-                                                <td><?= $t_tolak['nominal']; ?></td>
+                                                <td><?= $t_tolak['jenis_transaksi']; ?></td>
                                                 <td><?= $t_tolak['metode_pembayaran']; ?></td>
                                                 <td><?= date('d/m/Y - G:i', $t_tolak['tanggal']); ?></td>
-                                                <td><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">Lihat Detail</a></td>
+                                                <td><a href="<?= base_url('user/detailRiwayat/' . $t_tolak['id_transaksi']) ?>" rel="noopener noreferrer">Lihat Detail</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

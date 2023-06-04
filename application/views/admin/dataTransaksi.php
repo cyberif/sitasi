@@ -44,7 +44,7 @@
                                                 <td><?= $st_proses['metode_pembayaran']; ?></td>
                                                 <td><img class="bukti" src="<?= base_url('./uploads/bukti/' . $st_proses['bukti']); ?>" alt="<?= $st_proses['bukti']; ?>"></td>
                                                 <td><?= date('d/F/Y - G:i:s', $st_proses['tanggal']); ?></td>
-                                                <td><a href="<?= base_url('admin/detailSetoran/' . $st_proses['id_transaksi']); ?>" target="_blank" rel="noopener noreferrer">Lihat Detail</a></td>
+                                                <td><a href="<?= base_url('admin/detailSetoran/' . $st_proses['id_transaksi']); ?>" rel="noopener noreferrer">Lihat Detail</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -79,7 +79,7 @@
                                                 <td><?= $pn_proses['metode_pembayaran']; ?></td>
                                                 <td><img class="bukti" src="<?= base_url('./uploads/bukti/' . $pn_proses['bukti']); ?>" alt="<?= $pn_proses['bukti']; ?>"></td>
                                                 <td><?= date('d/F/Y - G:i:s', $pn_proses['tanggal']); ?></td>
-                                                <td><a href="<?= base_url('admin/detailPenarikan/' . $pn_proses['id_transaksi']); ?>" target="_blank" rel="noopener noreferrer">Lihat Detail</a></td>
+                                                <td><a href="<?= base_url('admin/detailPenarikan/' . $pn_proses['id_transaksi']); ?>" rel="noopener noreferrer">Lihat Detail</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

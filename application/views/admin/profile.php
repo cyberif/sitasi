@@ -66,18 +66,6 @@
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                                <!-- Profile Edit Form -->
-                                <div class="row mb-3">
-                                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <img src="<?= base_url('assets/img/user_profile/' . $user['image']); ?>" alt="Profile">
-                                        <div class="pt-2">
-                                            <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image" data-bs-toggle="modal" data-bs-target="#modalEditImg"><i class="bi bi-upload"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <form method="POST" action="<?= base_url('admin/profile'); ?>">
                                     <div class="row mb-3">
                                         <input type="hidden" name="id" value="<?= $user['id']; ?>">

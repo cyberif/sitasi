@@ -364,7 +364,33 @@ class Admin extends CI_Controller
         redirect('admin/dataTransaksi');
     }
 
-
+    function dataTabungan()
+    {
+        $nis = $this->session->userdata('nis');
+        $query = "SELECT * FROM tabungan 
+        JOIN user ON user.nis = tabungan.nis
+        JOIN siswa ON siswa.nis = tabungan.nis";
+        $sumSaldo = $this->db->query("SELECT SUM(saldo) AS saldo_diterima FROM tabungan");
+        $data = [
+            'title' => "Data Tabungan Siswa",
+            'topbar' => $this->ModelUser->cekUser(['nis' => $nis])->row_array(),
+            'saldo' => $sumSaldo->row_array(),
+            'tabungan' => $this->db->query($query)->result_array(),
+            'saldo_masuk' => $this->db->query(
+                "SELECT SUM(nominal) AS saldo_masuk FROM transaksi 
+                WHERE jenis_transaksi = 'Setoran' AND status = 'Diterima'"
+            )->row_array(),
+            'saldo_keluar' => $this->db->query(
+                "SELECT SUM(nominal) AS saldo_keluar FROM transaksi 
+                WHERE jenis_transaksi = 'Penarikan' AND status = 'Diterima'"
+            )->row_array(),
+        ];
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('admin/topbar', $data);
+        $this->load->view('admin/sidebar', $data);
+        $this->load->view('admin/dataTabungan', $data);
+        $this->load->view('templates/admin_footer', $data);
+    }
 
     public function profile()
     {
@@ -476,5 +502,40 @@ class Admin extends CI_Controller
         $this->dompdf->load_html($html);
         $this->dompdf->render();
         $this->dompdf->stream("laporan_transaksi_" . $status . ".pdf");
+    }
+
+    public function print_data_tabungan()
+    {
+        $query = "SELECT * FROM tabungan 
+        JOIN user ON user.nis = tabungan.nis
+        JOIN siswa ON siswa.nis = tabungan.nis";
+        $data = [
+            'title' => "Cetak Data Tabungan Siswa",
+            'tabungan' => $this->db->query($query)->result_array(),
+        ];
+        $this->load->view('admin/print_data_tabungan', $data);
+    }
+
+    public function pdf_data_tabungan()
+    {
+        $this->load->library('Dompdf_gen');
+
+        $query = "SELECT * FROM tabungan 
+        JOIN user ON user.nis = tabungan.nis
+        JOIN siswa ON siswa.nis = tabungan.nis";
+        $data = [
+            'title' => "Cetak Data Tabungan Siswa",
+            'tabungan' => $this->db->query($query)->result_array(),
+        ];
+        $this->load->view('admin/pdf_data_tabungan', $data);
+
+        $paper = 'A4';
+        $orien = 'landscape';
+        $html = $this->output->get_output();
+
+        $this->dompdf->set_paper($paper, $orien);
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->stream('laporan_data_tabungan.pdf');
     }
 }

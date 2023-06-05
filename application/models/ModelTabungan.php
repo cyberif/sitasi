@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class ModelTabungan extends CI_Model
 {
+    public function getTabungan()
+    {
+        return $this->db->get('tabungan');
+    }
+
     public function cekTabungan($where = null)
     {
         return $this->db->get_where('tabungan', $where);

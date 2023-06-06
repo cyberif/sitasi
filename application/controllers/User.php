@@ -9,6 +9,7 @@ class User extends CI_Controller
         parent::__construct();
         $this->load->helper(array('form', 'url'));
         $this->load->library(array('form_validation'));
+        cek_login();
     }
 
     function index()
@@ -354,6 +355,45 @@ class User extends CI_Controller
         $this->dompdf->load_html($html);
         $this->dompdf->render();
         $this->dompdf->stream('laporan_transaksi_ditolak.pdf');
+    }
+
+    public function excel_t_diproses($id)
+    {
+        $query = "SELECT * FROM transaksi
+        JOIN user ON user.id = transaksi.id_user
+        JOIN siswa ON siswa.nis = user.nis
+        WHERE transaksi.status = 'Diproses' AND user.id = " . $id;
+        $data = [
+            'transaksi' => $this->db->query($query)->result_array(),
+            'filename' => "Laporan Transaksi Diproses",
+        ];
+        $this->load->view('user/excel_transaksi', $data);
+    }
+
+    public function excel_t_diterima($id)
+    {
+        $query = "SELECT * FROM transaksi
+        JOIN user ON user.id = transaksi.id_user
+        JOIN siswa ON siswa.nis = user.nis
+        WHERE transaksi.status = 'Diterima' AND user.id = " . $id;
+        $data = [
+            'transaksi' => $this->db->query($query)->result_array(),
+            'filename' => "Laporan Transaksi Diterima",
+        ];
+        $this->load->view('user/excel_transaksi', $data);
+    }
+
+    public function excel_t_ditolak($id)
+    {
+        $query = "SELECT * FROM transaksi
+        JOIN user ON user.id = transaksi.id_user
+        JOIN siswa ON siswa.nis = user.nis
+        WHERE transaksi.status = 'Ditolak' AND user.id = " . $id;
+        $data = [
+            'transaksi' => $this->db->query($query)->result_array(),
+            'filename' => "Laporan Transaksi Ditolak",
+        ];
+        $this->load->view('user/excel_transaksi', $data);
     }
 
     public function profile()

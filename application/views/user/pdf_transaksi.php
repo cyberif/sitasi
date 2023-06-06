@@ -13,55 +13,6 @@
             font-family: 'Verdana';
         }
 
-        .frame {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .judul {
-            margin-top: 2;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .sub-judul {
-            margin-top: 0;
-            padding-top: 0;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .alamat {
-            margin-top: 0;
-            padding-top: 0;
-            margin-bottom: 1px;
-
-        }
-
-        .hr1 {
-            margin-top: 0;
-            padding-top: 0;
-            margin-bottom: 0;
-            padding-bottom: 0;
-            width: 90%;
-            height: 0.8px;
-            background-color: black;
-            border: 1px solid black;
-        }
-
-        .hr2 {
-            margin-top: 2px;
-            width: 90%;
-            height: 0.3px;
-            background-color: black;
-            border: 1px solid black;
-        }
-
-        .bold {
-            font-weight: bold;
-        }
-
         .table-data {
             width: 96%;
             border-collapse: collapse;

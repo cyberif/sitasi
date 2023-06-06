@@ -7,7 +7,7 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        //Codeigniter : Write Less Do More
+        cek_login();
     }
 
     function index()
@@ -465,6 +465,16 @@ class Admin extends CI_Controller
         $this->dompdf->stream('laporan_data_siswa.pdf');
     }
 
+    public function excel_data_siswa()
+    {
+        $data = [
+            'title' => "Cetak Data Siswa",
+            'filename' => "Laporan Data Siswa",
+            'siswa' => $this->ModelSiswa->getSiswa()->result_array(),
+        ];
+        $this->load->view('admin/excel_data_siswa', $data);
+    }
+
     public function print_transaksi($status)
     {
         $transaksi = $this->db->query("SELECT * FROM transaksi
@@ -504,6 +514,21 @@ class Admin extends CI_Controller
         $this->dompdf->stream("laporan_transaksi_" . $status . ".pdf");
     }
 
+    public function excel_transaksi($status)
+    {
+        $transaksi = $this->db->query("SELECT * FROM transaksi
+        JOIN user ON user.id = transaksi.id_user
+        JOIN siswa ON user.nis = siswa.nis
+        WHERE transaksi.status = '" . $status .
+            "' ORDER BY transaksi.tanggal ASC")->result_array();
+        $data = [
+            'title' => "Cetak Data Transaksi",
+            'filename' => "Laporan Data Transaksi " . $status,
+            'transaksi' => $transaksi,
+        ];
+        $this->load->view('admin/excel_transaksi', $data);
+    }
+
     public function print_data_tabungan()
     {
         $query = "SELECT * FROM tabungan 
@@ -537,5 +562,18 @@ class Admin extends CI_Controller
         $this->dompdf->load_html($html);
         $this->dompdf->render();
         $this->dompdf->stream('laporan_data_tabungan.pdf');
+    }
+
+    public function excel_data_tabungan()
+    {
+        $query = "SELECT * FROM tabungan 
+        JOIN user ON user.nis = tabungan.nis
+        JOIN siswa ON siswa.nis = tabungan.nis";
+        $data = [
+            'title' => "Cetak Data Tabungan Siswa",
+            'filename' => "Laporan Data Tabungan Siswa",
+            'tabungan' => $this->db->query($query)->result_array(),
+        ];
+        $this->load->view('admin/excel_data_tabungan', $data);
     }
 }

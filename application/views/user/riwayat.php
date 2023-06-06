@@ -70,6 +70,7 @@
                                     <div class="col d-flex flex-row gap-2 mb-2">
                                         <a href="<?= base_url('user/print_t_diproses/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
                                         <a href="<?= base_url('user/pdf_t_diproses/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                        <a href="<?= base_url('user/excel_t_diproses/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-success"><i class="fs-5 bi bi-file-earmark-excel"></i> EXCEL</a>
                                     </div>
                                 </div>
                                 <table class="table table-borderless datatable">
@@ -109,6 +110,7 @@
                                     <div class="col d-flex flex-row gap-2 mb-2">
                                         <a href="<?= base_url('user/print_t_diterima/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
                                         <a href="<?= base_url('user/pdf_t_diterima/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                        <a href="<?= base_url('user/excel_t_diterima/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-success"><i class="fs-5 bi bi-file-earmark-excel"></i> EXCEL</a>
                                     </div>
                                 </div>
                                 <table class="table table-borderless datatable">
@@ -148,6 +150,7 @@
                                     <div class="col d-flex flex-row gap-2 mb-2">
                                         <a href="<?= base_url('user/print_t_ditolak/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
                                         <a href="<?= base_url('user/pdf_t_ditolak/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                        <a href="<?= base_url('user/excel_t_ditolak/' . $sidebar['id']); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-success"><i class="fs-5 bi bi-file-earmark-excel"></i> EXCEL</a>
                                     </div>
                                 </div>
                                 <table class="table table-borderless datatable">

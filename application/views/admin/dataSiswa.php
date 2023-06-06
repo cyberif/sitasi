@@ -21,6 +21,7 @@
                                     <div class="col d-flex flex-row gap-2 mb-2">
                                         <a href="<?= base_url('admin/print_data_siswa'); ?>" target="_blank" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
                                         <a href="<?= base_url('admin/pdf_data_siswa'); ?>" target="_blank" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
+                                        <a href="<?= base_url('admin/excel_data_siswa'); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-success"><i class="fs-5 bi bi-file-earmark-excel"></i> EXCEL</a>
                                     </div>
 
                                 </div>

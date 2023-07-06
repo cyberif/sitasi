@@ -29,7 +29,15 @@
                                     </div>
                                     <?= form_error('nominal', '<small class="text-danger ps-3">', '</small>'); ?>
                                 </div>
-
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="floatingName" placeholder="Catatan" name="catatan">
+                                            <label for="floatingName">Catatan</label>
+                                        </div>
+                                    </div>
+                                    <?= form_error('catatan', '<small class="text-danger ps-3">', '</small>'); ?>
+                                </div>
                                 <div class="row mt-2">
                                     <label class="col-sm-4 col-form-label">Metode Pembayaran</label>
                                     <div class="col">

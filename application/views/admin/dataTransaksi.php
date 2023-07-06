@@ -21,13 +21,13 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Setoran Diproses</h5>
+                                <h5 class="card-title">Setoran <span class="badge bg-primary text-light rounded-pill">Diproses</span></h5>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">ID User</th>
-                                            <th scope="col">Nominal</th>
+                                            <th scope="col">Jenis Transaksi</th>
                                             <th scope="col">Metode Pembayaran</th>
                                             <th scope="col">Bukti</th>
                                             <th scope="col">Tanggal</th>
@@ -56,13 +56,13 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Penarikan Diproses</h5>
+                                <h5 class="card-title">Penarikan <span class="badge bg-primary text-light rounded-pill">Diproses</span></h5>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">ID User</th>
-                                            <th scope="col">Nominal</th>
+                                            <th scope="col">Jenis Transaksi</th>
                                             <th scope="col">Metode Pembayaran</th>
                                             <th scope="col">Bukti</th>
                                             <th scope="col">Tanggal</th>
@@ -77,7 +77,11 @@
                                                 <td><?= $pn_proses['id_user']; ?></td>
                                                 <td><?= $pn_proses['jenis_transaksi']; ?></td>
                                                 <td><?= $pn_proses['metode_pembayaran']; ?></td>
-                                                <td><img class="bukti" src="<?= base_url('./uploads/bukti/' . $pn_proses['bukti']); ?>" alt="<?= $pn_proses['bukti']; ?>"></td>
+                                                <?php if ($pn_proses['bukti'] == '') { ?>
+                                                    <td>Kosong</td>
+                                                <?php } else { ?>
+                                                    <td><img class="bukti" src="<?= base_url('./uploads/bukti/' . $pn_proses['bukti']); ?>" alt="<?= $pn_proses['bukti']; ?>"></td>
+                                                <?php } ?>
                                                 <td><?= date('d/F/Y - G:i:s', $pn_proses['tanggal']); ?></td>
                                                 <td><a href="<?= base_url('admin/detailPenarikan/' . $pn_proses['id_transaksi']); ?>" rel="noopener noreferrer">Lihat Detail</a></td>
                                             </tr>

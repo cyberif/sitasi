@@ -1,4 +1,7 @@
 <?php
+
+use FontLib\Table\Type\post;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class User extends CI_Controller
@@ -40,6 +43,9 @@ class User extends CI_Controller
         $this->form_validation->set_rules('nominal', 'nominal', 'required', [
             'required' => 'Masukan Nominal.'
         ]);
+        $this->form_validation->set_rules('catatan', 'catatan', 'required', [
+            'required' => 'Masukan Catatan.'
+        ]);
 
         if ($this->form_validation->run() == false) {
             $nis = $this->session->userdata('nis');
@@ -60,6 +66,7 @@ class User extends CI_Controller
             $id_tabungan = $this->input->post('id_tabungan');
             $jenis_transaksi = 'Setoran';
             $nominal = $this->input->post('nominal', true);
+            $catatan = $this->input->post('catatan', true);
             $metode_pembayaran = $this->input->post('metode_pembayaran');
             $status = 'Diproses';
             $tanggal = time();
@@ -98,6 +105,7 @@ class User extends CI_Controller
                     'id_user' => $id_user,
                     'jenis_transaksi' => $jenis_transaksi,
                     'nominal' => $nominal,
+                    'catatan' => $catatan,
                     'metode_pembayaran' => $metode_pembayaran,
                     'bukti' => $this->upload->data('file_name'),
                     'status' => $status,
@@ -123,7 +131,9 @@ class User extends CI_Controller
         $this->form_validation->set_rules('nominal', 'nominal', 'required', [
             'required' => 'Masukan Nominal.'
         ]);
-
+        $this->form_validation->set_rules('catatan', 'catatan', 'required', [
+            'required' => 'Masukan Catatan.'
+        ]);
 
         if ($this->form_validation->run() == false) {
             $nis = $this->session->userdata('nis');
@@ -145,6 +155,7 @@ class User extends CI_Controller
             $id_tabungan = $this->input->post('id_tabungan');
             $jenis_transaksi = 'Penarikan';
             $nominal = $this->input->post('nominal', true);
+            $catatan = $this->input->post('catatan', true);
             $metode_pembayaran = $this->input->post('metode_pembayaran');
             $status = 'Diproses';
             $tanggal = time();
@@ -152,6 +163,7 @@ class User extends CI_Controller
                 'id_user' => $id_user,
                 'jenis_transaksi' => $jenis_transaksi,
                 'nominal' => $nominal,
+                'catatan' => $catatan,
                 'metode_pembayaran' => $metode_pembayaran,
                 'bukti' => '',
                 'status' => $status,
@@ -165,7 +177,7 @@ class User extends CI_Controller
                     'pesan',
                     '<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
                             <i class="bi bi-x-circle me-1"></i>
-                            <b>Gagal!</b> Saldo tidak cukup.
+                            <b>Gagal!</b> Saldo anda tidak cukup.
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>'
                 );
@@ -438,6 +450,48 @@ class User extends CI_Controller
                 '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle me-1"></i>
                     <b>Sukses!</b> Profil telah diperbarui.
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>'
+            );
+            redirect('user/profile');
+        }
+    }
+
+    public function ganti_password()
+    {
+        $password_lama1 = $this->input->post('password_lama1');
+        $password_lama2 = $this->input->post('password_lama2');
+        $password = $this->input->post('password');
+        $password2 = $this->input->post('password2');
+
+        if (password_verify($password_lama2, $password_lama1)) {
+            if ($password == $password2 && !$password == '' && !$password2 == '') {
+                $this->session->set_flashdata(
+                    'pesan',
+                    '<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                        <i class="bi bi-x-circle me-1"></i>
+                        <b>tuh!</b> Password baru sama.
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>'
+                );
+                redirect('user/profile');
+            } else {
+                $this->session->set_flashdata(
+                    'pesan',
+                    '<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                        <i class="bi bi-x-circle me-1"></i>
+                        <b>Gagal!</b> Password baru tidak sama atau belum diisi.
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>'
+                );
+                redirect('user/profile');
+            }
+        } else {
+            $this->session->set_flashdata(
+                'pesan',
+                '<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                    <i class="bi bi-x-circle me-1"></i>
+                    <b>Gagal!</b> Password lama tidak sama.
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>'
             );

@@ -22,15 +22,13 @@
                             <h5 class="card-title">Detail Setoran</h5>
                             <!-- Floating Labels Form -->
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6 g-1">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="floatingName" placeholder="ID Transaksi" value="<?= $transaksi['id_transaksi']; ?>" disabled>
                                         <label for="floatingName">ID Transaksi</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-12">
+                                <div class="col-md-6 g-1">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="floatingName" placeholder="Nama" value="<?= $siswa['nama']; ?>" disabled>
                                         <label for="floatingName">Nama</label>
@@ -38,15 +36,13 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-12">
+                                <div class="col-md-6 g-1">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="floatingName" placeholder="No Telepon" value="<?= $siswa['no_telepon']; ?>" disabled>
                                         <label for="floatingName">No Telepon</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-12">
+                                <div class="col-md-6 g-1">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="floatingName" placeholder="Jenis Transaksi" value="<?= $transaksi['jenis_transaksi']; ?>" disabled>
                                         <label for="floatingName">Jenis Transaksi</label>
@@ -54,23 +50,27 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-12">
+                                <div class="col-md-6 g-1">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="floatingName" placeholder="Nominal" value="<?= $transaksi['nominal']; ?>" disabled>
                                         <label for="floatingName">Nominal</label>
                                     </div>
                                 </div>
+                                <div class="col-md-6 g-1">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="floatingName" placeholder="Catatan" value="<?= $transaksi['catatan']; ?>" disabled>
+                                        <label for="floatingName">Catatan</label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-12">
+                                <div class="col-md-6 g-1">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="floatingName" placeholder="Metode Pembayaran" value="<?= $transaksi['metode_pembayaran']; ?>" disabled>
                                         <label for="floatingName">Metode Pembayaran</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-12">
+                                <div class="col-md-6 g-1">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="floatingName" placeholder="Tanggal" value="<?= date('d/F/Y - G:i:s', $transaksi['tanggal']); ?>" disabled>
                                         <label for="floatingName">Tanggal</label>
@@ -78,9 +78,13 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <label class="col-sm-4 col-form-label">Bukti Transfer</label>
-                                <div class="col-6">
-                                    <img class="bukti" src="<?= base_url('./uploads/bukti/' . $transaksi['bukti']); ?>" alt="<?= $transaksi['bukti']; ?>">
+                                <div class="col-md-6 g-1 ms-1">
+                                    <label class="col-sm-4">Bukti Transfer</label>
+                                    <div class="col-6">
+                                        <a href="<?= base_url('uploads/bukti/' . $transaksi['bukti']); ?>" target="_blank" class="btn btn-primary btn-sm">
+                                            Klik disini!
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <form method="POST" enctype="multipart/form-data" action="<?= base_url('admin/terimaSetoran/' . $transaksi['id_transaksi']); ?>">
@@ -88,6 +92,7 @@
                                 <input type="hidden" name="id_user" value="<?= $transaksi['id_user']; ?>">
                                 <input type="hidden" name="jenis_transaksi" value="<?= $transaksi['jenis_transaksi']; ?>">
                                 <input type="hidden" name="nominal" value="<?= $transaksi['nominal']; ?>">
+                                <input type="hidden" name="catatan" value="<?= $transaksi['catatan']; ?>">
                                 <input type="hidden" name="metode_pembayaran" value="<?= $transaksi['metode_pembayaran']; ?>">
                                 <input type="hidden" name="id_tabungan" value="<?= $transaksi['id_tabungan']; ?>">
                                 <input type="hidden" name="bukti" value="<?= $transaksi['bukti']; ?>">
@@ -103,6 +108,7 @@
                                 <input type="hidden" name="id_user" value="<?= $transaksi['id_user']; ?>">
                                 <input type="hidden" name="jenis_transaksi" value="<?= $transaksi['jenis_transaksi']; ?>">
                                 <input type="hidden" name="nominal" value="<?= $transaksi['nominal']; ?>">
+                                <input type="hidden" name="catatan" value="<?= $transaksi['catatan']; ?>">
                                 <input type="hidden" name="metode_pembayaran" value="<?= $transaksi['metode_pembayaran']; ?>">
                                 <input type="hidden" name="id_tabungan" value="<?= $transaksi['id_tabungan']; ?>">
                                 <input type="hidden" name="bukti" value="<?= $transaksi['bukti']; ?>">

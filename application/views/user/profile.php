@@ -29,12 +29,18 @@
                             <li class="nav-item">
                                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                             </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit-profile">Edit Profile</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ganti-password">Ganti Password</button>
+                            </li>
                         </ul>
                         <div class="tab-content pt-2">
 
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
-                                <h5 class="card-title">User Profile</h5>
+                                <h5 class="card-title">Profile</h5>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label ">Nama Lengkap</div>
@@ -62,6 +68,60 @@
                                     <div class="col-lg-3 col-md-4 label">Tahun Masuk</div>
                                     <div class="col-lg-9 col-md-8"><?= $profile['tahun_masuk']; ?></div>
                                 </div>
+                            </div>
+
+                        </div><!-- End Bordered Tabs -->
+                        <div class="tab-content pt-2">
+
+                            <div class="tab-pane fade profile-overview" id="edit-profile">
+
+                                <h5 class="card-title">Edit Profile</h5>
+
+                                <form action="" method="post">
+                                    <div class="row mb-3">
+                                        <label class="col-md-4 col-lg-3 col-form-label label">No Telepon</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" name="nama" value="<?= $profile['no_telepon']; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div><!-- End Bordered Tabs -->
+                        <div class="tab-content pt-2">
+
+                            <div class="tab-pane fade profile-overview" id="ganti-password">
+
+                                <h5 class="card-title">Ganti Password</h5>
+
+                                <form action="<?= base_url('user/ganti_password'); ?>" method="post">
+                                    <input type="hidden" name="password_lama1" value="<?= $profile['password']; ?>">
+                                    <div class="row mb-3">
+                                        <label class="col-md-4 col-lg-3 col-form-label label">Password Lama</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" name="password_lama2" placeholder="Masukan password lama">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-md-4 col-lg-3 col-form-label label">Password Baru</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" name="password" placeholder="Masukan password baru">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-md-4 col-lg-3 col-form-label label">Ulangi Password Baru</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" name="password2" placeholder="Ulangi password baru">
+                                        </div>
+                                    </div>
+                                    <?= form_error('password2', '<small class="text-danger ps-3">', '</small>'); ?>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
                             </div>
 
                         </div><!-- End Bordered Tabs -->

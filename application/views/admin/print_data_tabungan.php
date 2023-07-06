@@ -90,7 +90,7 @@
         <hr class="hr1">
         <hr class="hr2">
         <h3>
-            <center>Laporan Data Siswa</center>
+            <center>Laporan Data Tabungan Siswa</center>
         </h3>
         <br />
         <table class="table-data">

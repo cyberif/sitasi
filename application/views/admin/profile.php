@@ -13,7 +13,6 @@
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                         <img src="<?= base_url('assets/img/user_profile/' . $user['image']); ?>" alt="Profile" class="rounded-circle">
-                        <h2><?= $user['nis']; ?></h2>
                         <h3><?= $user['nama']; ?></h3>
                     </div>
                 </div>
@@ -43,23 +42,13 @@
                                 <h5 class="card-title">Profile Details</h5>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                    <div class="col-lg-3 col-md-4 label ">Nama</div>
                                     <div class="col-lg-9 col-md-8"><?= $user['nama']; ?></div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">NIS</div>
-                                    <div class="col-lg-9 col-md-8"><?= $user['nis']; ?></div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Job</div>
+                                    <div class="col-lg-3 col-md-4 label">Role</div>
                                     <div class="col-lg-9 col-md-8">Admin</div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Country</div>
-                                    <div class="col-lg-9 col-md-8">Indonesia</div>
                                 </div>
 
                             </div>
@@ -75,7 +64,7 @@
                                         <input type="hidden" name="date_created" value="<?= $user['date_created']; ?>">
                                         <input type="hidden" name="nis" value="<?= $user['nis']; ?>">
                                         <input type="hidden" name="role_id" value="<?= $user['role_id']; ?>">
-                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nama</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="nama" type="text" class="form-control" id="nama" value="<?= $user['nama']; ?>">
                                             <?= form_error('nama', '<small class="text-danger ps-3">', '</small>'); ?>

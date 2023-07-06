@@ -65,7 +65,7 @@
                                     <label class="col-sm-2 col-form-label">Kelas</label>
                                     <div class="col-sm-5">
                                         <select class="form-select" name="kelas" multiple aria-label="multiple select example">
-                                            <option selected>Pilih Kelas</option>
+                                            <option selected disabled>Pilih Kelas</option>
                                             <?php $i = 1; ?>
                                             <?php $alfabet = ['A', 'B', 'C']; ?>
                                             <?php for ($i; $i <= 6; $i++) : ?>
@@ -80,7 +80,7 @@
                                     <label class="col-sm-2 col-form-label">Tahun Masuk</label>
                                     <div class="col-sm-5">
                                         <select class="form-select" name="tahun_masuk" multiple aria-label="multiple select example">
-                                            <option selected>Pilih Tahun Masuk</option>
+                                            <option selected disabled>Pilih Tahun Masuk</option>
                                             <?php $i = 2023; ?>
                                             <?php for ($i; $i >= 2016; $i--) : ?>
                                                 <option value="<?= $i; ?>"><?= $i; ?></option>

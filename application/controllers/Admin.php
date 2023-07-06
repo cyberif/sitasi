@@ -173,6 +173,7 @@ class Admin extends CI_Controller
         $id_tabungan = $this->input->post('id_tabungan');
         $jenis_transaksi = $this->input->post('jenis_transaksi');
         $nominal = $this->input->post('nominal', true);
+        $catatan = $this->input->post('catatan', true);
         $metode_pembayaran = $this->input->post('metode_pembayaran');
         $status = 'Diterima';
         $bukti = $this->input->post('bukti');
@@ -181,6 +182,7 @@ class Admin extends CI_Controller
             'id_user' => $id_user,
             'jenis_transaksi' => $jenis_transaksi,
             'nominal' => $nominal,
+            'catatan' => $catatan,
             'metode_pembayaran' => $metode_pembayaran,
             'bukti' => $bukti,
             'status' => $status,
@@ -213,6 +215,7 @@ class Admin extends CI_Controller
         $id_tabungan = $this->input->post('id_tabungan');
         $jenis_transaksi = $this->input->post('jenis_transaksi');
         $nominal = $this->input->post('nominal', true);
+        $catatan = $this->input->post('catatan', true);
         $metode_pembayaran = $this->input->post('metode_pembayaran');
         $status = 'Ditolak';
         $bukti = $this->input->post('bukti');
@@ -221,6 +224,7 @@ class Admin extends CI_Controller
             'id_user' => $id_user,
             'jenis_transaksi' => $jenis_transaksi,
             'nominal' => $nominal,
+            'catatan' => $catatan,
             'metode_pembayaran' => $metode_pembayaran,
             'bukti' => $bukti,
             'status' => $status,
@@ -277,9 +281,9 @@ class Admin extends CI_Controller
         $id_tabungan = $this->input->post('id_tabungan');
         $jenis_transaksi = $this->input->post('jenis_transaksi');
         $nominal = $this->input->post('nominal', true);
+        $catatan = $this->input->post('catatan', true);
         $metode_pembayaran = $this->input->post('metode_pembayaran');
         $status = 'Diterima';
-        $bukti = $this->input->post('bukti');
         $tanggal = $this->input->post('tanggal');
         $file_name = str_replace('.', '', $id_user . $tanggal);
         $config['upload_path'] = FCPATH . './uploads/bukti/';
@@ -298,14 +302,15 @@ class Admin extends CI_Controller
                     '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>'
             );
-            redirect('admin/detaiPenarikan/' . $id_transaksi);
+            redirect('admin/detailPenarikan/' . $id_transaksi);
         } else {
             $dataTransaksi = array(
                 'id_user' => $id_user,
                 'jenis_transaksi' => $jenis_transaksi,
                 'nominal' => $nominal,
+                'catatan' => $catatan,
                 'metode_pembayaran' => $metode_pembayaran,
-                'bukti' => $bukti,
+                'bukti' => $this->upload->data('file_name'),
                 'status' => $status,
                 'id_tabungan' => $id_tabungan,
                 'tanggal' => $tanggal
@@ -337,6 +342,7 @@ class Admin extends CI_Controller
         $id_tabungan = $this->input->post('id_tabungan');
         $jenis_transaksi = $this->input->post('jenis_transaksi');
         $nominal = $this->input->post('nominal', true);
+        $catatan = $this->input->post('catatan', true);
         $metode_pembayaran = $this->input->post('metode_pembayaran');
         $status = 'Ditolak';
         $bukti = $this->input->post('bukti');
@@ -345,6 +351,7 @@ class Admin extends CI_Controller
             'id_user' => $id_user,
             'jenis_transaksi' => $jenis_transaksi,
             'nominal' => $nominal,
+            'catatan' => $catatan,
             'metode_pembayaran' => $metode_pembayaran,
             'bukti' => $bukti,
             'status' => $status,
@@ -391,6 +398,45 @@ class Admin extends CI_Controller
         $this->load->view('admin/dataTabungan', $data);
         $this->load->view('templates/admin_footer', $data);
     }
+
+    function detailTabungan($id_tabungan)
+    {
+        $nis = $this->session->userdata('nis');
+
+        $query = "SELECT * FROM tabungan 
+        JOIN transaksi ON transaksi.id_tabungan = tabungan.id_tabungan
+        JOIN siswa ON siswa.nis = tabungan.nis
+        WHERE tabungan.id_tabungan = " . $id_tabungan;
+
+        $user = "SELECT * FROM tabungan 
+        JOIN user ON user.nis = tabungan.nis
+        JOIN siswa ON siswa.nis = tabungan.nis
+        WHERE tabungan.id_tabungan = " . $id_tabungan;
+
+        $sumSaldo = $this->db->query("SELECT SUM(saldo) AS saldo_diterima FROM tabungan WHERE id_tabungan = " . $id_tabungan);
+        $data = [
+            'title' => "Detail Tabungan Siswa",
+            'topbar' => $this->ModelUser->cekUser(['nis' => $nis])->row_array(),
+            'saldo' => $sumSaldo->row_array(),
+            'tabungan' => $this->db->query($query)->result_array(),
+            'user' => $this->db->query($user)->row_array(),
+            'saldo_masuk' => $this->db->query(
+                "SELECT SUM(nominal) AS saldo_masuk FROM transaksi 
+                WHERE jenis_transaksi = 'Setoran' AND status = 'Diterima' AND id_tabungan = " . $id_tabungan
+            )->row_array(),
+            'saldo_keluar' => $this->db->query(
+                "SELECT SUM(nominal) AS saldo_keluar FROM transaksi 
+                WHERE jenis_transaksi = 'Penarikan' AND status = 'Diterima' AND id_tabungan = " . $id_tabungan
+            )->row_array(),
+        ];
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('admin/topbar', $data);
+        $this->load->view('admin/sidebar', $data);
+        $this->load->view('admin/detailTabungan', $data);
+        $this->load->view('templates/admin_footer', $data);
+    }
+
+
 
     public function profile()
     {

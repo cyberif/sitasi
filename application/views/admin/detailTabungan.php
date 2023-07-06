@@ -6,11 +6,79 @@
 
     <section class="section dashboard">
         <div class="row">
+            <section class="section profile">
+                <div class="row">
+                    <?= $this->session->flashdata('pesan'); ?>
+                    <div class="col-xl-4">
+
+                        <div class="card">
+                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                                <img src="<?= base_url('assets/img/user_profile/' . $user['image']); ?>" alt="Profile" class="rounded-circle">
+                                <h2><?= $user['nama']; ?></h2>
+                                <h3><?= $user['nis']; ?></h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-8">
+
+                        <div class="card">
+                            <div class="card-body pt-3">
+                                <!-- Bordered Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-bordered">
+                                    <li class="nav-item">
+                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content pt-2">
+
+                                    <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                                        <h5 class="card-title">Profile</h5>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label ">Nama Lengkap</div>
+                                            <div class="col-lg-9 col-md-8"><?= $user['nama']; ?></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">NIS</div>
+                                            <div class="col-lg-9 col-md-8"><?= $user['nis']; ?></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Kelas</div>
+                                            <div class="col-lg-9 col-md-8"><?= $user['kelas']; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Jenis Kelamin</div>
+                                            <div class="col-lg-9 col-md-8"><?= $user['jenis_kelamin']; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">No Telepon</div>
+                                            <div class="col-lg-9 col-md-8"><?= $user['no_telepon']; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Tahun Masuk</div>
+                                            <div class="col-lg-9 col-md-8"><?= $user['tahun_masuk']; ?></div>
+                                        </div>
+                                    </div>
+
+                                </div><!-- End Bordered Tabs -->
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
             <!-- Siswa Card -->
             <div class="col-xxl-4 col-md-4">
                 <div class="card info-card sales-card">
                     <div class="card-body">
-                        <h5 class="card-title">Saldo Diterima</h5>
+                        <h5 class="card-title">Saldo</h5>
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                 <i class="bi bi-cash"></i>
@@ -69,31 +137,31 @@
             </div><!-- End saldo keluar Card -->
 
             <!-- Left side columns -->
-            <div class="col-lg-11">
+            <div class="col-lg-12">
                 <div class="row">
                     <!-- data siswa -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Tabungan Siswa</h5>
-                                <div class="row">
+                                <h5 class="card-title">Transaksi</h5>
+                                <!-- <div class="row">
                                     <div class="col d-flex flex-row gap-2 mb-2">
                                         <a href="<?= base_url('admin/print_data_tabungan'); ?>" target="_blank" type="button" class="btn btn-sm btn-outline-primary"><i class="fs-5 bi bi-printer"></i> PRINT</a>
                                         <a href="<?= base_url('admin/pdf_data_tabungan'); ?>" target="_blank" type="button" class="btn btn-sm btn-outline-danger"><i class="fs-5 bi bi-file-earmark-pdf"></i> PDF</a>
                                         <a href="<?= base_url('admin/excel_data_tabungan'); ?>" target="_blink" type="button" class="btn btn-sm btn-outline-success"><i class="fs-5 bi bi-file-earmark-excel"></i> EXCEL</a>
                                     </div>
 
-                                </div>
+                                </div> -->
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">NIS</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Kelas</th>
-                                            <th scope="col">No Telepon</th>
-                                            <th scope="col">Saldo</th>
-                                            <th scope="col">Aksi</th>
+                                            <th scope="col">Jenis Transaksi</th>
+                                            <th scope="col">Nominal</th>
+                                            <th scope="col">Metode Pembayaran</th>
+                                            <th scope="col">Tanggal</th>
+                                            <th scope="col">Catatan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -102,13 +170,11 @@
                                             <tr>
                                                 <th scope="row"><?= $i++; ?></a></th>
                                                 <td><?= $tab['nis']; ?></td>
-                                                <td><?= $tab['nama']; ?></td>
-                                                <td><?= $tab['kelas']; ?></td>
-                                                <td><?= $tab['no_telepon']; ?></td>
-                                                <td><?= 'Rp. ' . $tab['saldo']; ?></td>
-                                                <td>
-                                                    <a href="<?= base_url('admin/detailTabungan/' . $tab['id_tabungan']); ?>" class="btn btn-primary btn-sm">Detail</a>
-                                                </td>
+                                                <td><?= $tab['jenis_transaksi']; ?></td>
+                                                <td><?= 'Rp. ' . $tab['nominal']; ?></td>
+                                                <td><?= $tab['metode_pembayaran']; ?></td>
+                                                <td><?= date('d/m/Y', $tab['tanggal']); ?></td>
+                                                <td><?= $tab['catatan']; ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

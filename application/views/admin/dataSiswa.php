@@ -28,26 +28,31 @@
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">NIS</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Kelas</th>
-                                            <th scope="col">Jenis Kelamin</th>
-                                            <th scope="col">No Telepon</th>
-                                            <th scope="col">Tahun Masuk</th>
+                                            <th scope="col" class="text-center">#</th>
+                                            <th scope="col" class="text-center">NIS</th>
+                                            <th scope="col" class="text-center">Nama</th>
+                                            <th scope="col" class="text-center">Kelas</th>
+                                            <th scope="col" class="text-center">Jenis Kelamin</th>
+                                            <th scope="col" class="text-center">No Telepon</th>
+                                            <th scope="col" class="text-center">Tahun Masuk</th>
+                                            <!-- <th scope="col" class="text-center">Aksi</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
                                         <?php foreach ($siswa as $s) : ?>
                                             <tr>
-                                                <th scope="row"><?= $i++; ?></a></th>
-                                                <td><?= $s['nis']; ?></td>
-                                                <td><?= $s['nama']; ?></td>
-                                                <td><?= $s['kelas']; ?></td>
-                                                <td><?= $s['jenis_kelamin']; ?></td>
-                                                <td><?= $s['no_telepon']; ?></td>
-                                                <td><?= $s['tahun_masuk']; ?></td>
+                                                <th scope="row" class="text-center"><?= $i++; ?></a></th>
+                                                <td class="text-center"><?= $s['nis']; ?></td>
+                                                <td class="text-center"><?= $s['nama']; ?></td>
+                                                <td class="text-center"><?= $s['kelas']; ?></td>
+                                                <td class="text-center"><?= $s['jenis_kelamin']; ?></td>
+                                                <td class="text-center"><?= $s['no_telepon']; ?></td>
+                                                <td class="text-center"><?= $s['tahun_masuk']; ?></td>
+                                                <!-- <td class="text-center">
+                                                    <button class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></button>
+                                                    <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                                </td> -->
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
